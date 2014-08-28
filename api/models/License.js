@@ -8,7 +8,21 @@
 module.exports = {
 
   attributes: {
-
+      name: {
+          type: 'string'
+      },
+      longName: {
+          type: 'string'
+      },
+      description: {
+          type: 'string'
+      },
+      distributeLicense: {
+          type: 'boolean'
+      },
+      distributeSource: {
+          type: 'boolean'
+      }
   }
 };
 

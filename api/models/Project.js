@@ -8,7 +8,12 @@
 module.exports = {
 
   attributes: {
-
+      projectId: {
+          type: 'string'
+      },
+      packages: {
+          collection: 'Package'
+      }
   }
 };
 
