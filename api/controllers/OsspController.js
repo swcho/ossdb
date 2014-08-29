@@ -5,7 +5,7 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-module.exports = require("../services/PaginationController");
+module.exports = require("../services/PaginationController")();
 
 //module.exports = {
 //
