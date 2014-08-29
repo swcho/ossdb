@@ -27,10 +27,10 @@ module.exports = function () {
             var Model = actionUtil.parseModel(req);
             var criteria = actionUtil.parseCriteria(req);
             var q = Model.find();
-            if (populateList) {
+            if (populateList && populateList.forEach) {
                 populateList.forEach(function(key) {
                     q.populate(key);
-                })
+                });
             }
             q.skip((no - 1) * limit).limit(limit).sort(sort).exec(function findCB(err, found) {
                 Model.count().exec(function (err, count) {
