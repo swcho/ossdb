@@ -6,3 +6,7 @@
  */
 
 module.exports = require("../services/PaginationController")();
+var page = module.exports.page;
+module.exports.page = function (req, res) {
+    page(req, res, ['ossp', 'license']);
+};

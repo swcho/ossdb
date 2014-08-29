@@ -11,6 +11,12 @@ module.exports = {
       name: {
           type: 'string'
       },
+      ossp: {
+          model: 'Ossp'
+      },
+      license: {
+          model: 'License'
+      },
       projects: {
           collection: 'Project'
       }

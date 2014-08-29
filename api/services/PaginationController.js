@@ -19,14 +19,20 @@ module.exports = function () {
                 });
         },
 
-        page: function(req, res) {
+        page: function(req, res, populateList) {
             var no = parseInt(req.param('no'), 10) || 1;
             var limit = parseInt(req.param('limit'), 10) || 10;
             var sort = req.param('sort');
             console.log([no, limit, sort].join(', '));
             var Model = actionUtil.parseModel(req);
             var criteria = actionUtil.parseCriteria(req);
-            Model.find().skip((no - 1) * limit).limit(limit).sort(sort).exec(function findCB(err, found) {
+            var q = Model.find();
+            if (populateList) {
+                populateList.forEach(function(key) {
+                    q.populate(key);
+                })
+            }
+            q.skip((no - 1) * limit).limit(limit).sort(sort).exec(function findCB(err, found) {
                 Model.count().exec(function (err, count) {
                     res.json({
                         count: count,
