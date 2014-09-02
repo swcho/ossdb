@@ -17,6 +17,10 @@ module.exports = {
       },
       projectUrl: {
           type: 'string'
+      },
+      packages: {
+          collection: 'package',
+          via: 'ossp'
       }
   }
 };

@@ -1,28 +1,28 @@
 /**
-* Package.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * Package.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
 
 module.exports = {
 
-  attributes: {
-      name: {
-          type: 'string',
-          unique: true
-      },
-      ossp: {
-          model: 'Ossp'
-      },
-      license: {
-          model: 'License'
-      },
-      projects: {
-          collection: 'project',
-          via: 'packages',
-          dominant: true
-      }
-  }
+    attributes: {
+        name: {
+            type: 'string',
+            unique: true
+        },
+        ossp: {
+            model: 'ossp'
+        },
+        license: {
+            model: 'license'
+        },
+        projects: {
+            collection: 'project',
+            via: 'packages',
+            dominant: true
+        }
+    }
 };
 

@@ -18,11 +18,18 @@ module.exports = {
       description: {
           type: 'string'
       },
+      url: {
+          type: 'string'
+      },
       distributeLicense: {
           type: 'boolean'
       },
       distributeSource: {
           type: 'boolean'
+      },
+      packages: {
+          collection: 'package',
+          via: 'license'
       }
   }
 };
