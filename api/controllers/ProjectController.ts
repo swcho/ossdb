@@ -42,7 +42,7 @@ function setProjectWithPackages(req, res) {
 
     console.log(JSON.stringify(param));
 
-    var project: TProject;
+    var project; //: TProject;
     var resp: TSetProjectWithPackagesResp = {
         ok: false,
         projectAdded: false,
@@ -63,13 +63,12 @@ function setProjectWithPackages(req, res) {
             projectId: param.projectId
         }, {
             projectId: param.projectId
-        }).exec(function(err, p: TProject) {
+        }).populate('packages').exec(function(err, p: TProject) {
             console.log(p);
             project = p;
             cb();
         });
     });
-
 
     // get package id list
     var packages: number[] = [];
@@ -100,18 +99,28 @@ function setProjectWithPackages(req, res) {
 
         console.log("Update packages");
 
-        Project.update({
-            projectId: project.projectId
-        }, {
-            packages: packages
-        }).exec(function(err, p: TProject) {
+        packages.forEach(function(pkgId) {
+            project.packages.add(pkgId);
+        });
+        project.save(function(err) {
 
             console.log(err);
-            console.log(p);
 
-            project = p;
             cb();
         });
+
+//        Project.update({
+//            projectId: project.projectId
+//        }, {
+//            packages: packages
+//        }).exec(function(err, p: TProject) {
+//
+//            console.log(err);
+//            console.log(p);
+//
+//            project = p;
+//            cb();
+//        });
     });
 
     // finalize

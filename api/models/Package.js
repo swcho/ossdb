@@ -19,7 +19,9 @@ module.exports = {
           model: 'License'
       },
       projects: {
-          collection: 'Project'
+          collection: 'project',
+          via: 'packages',
+          dominant: true
       }
   }
 };

@@ -41,7 +41,7 @@ function setProjectWithPackages(req, res) {
             projectId: param.projectId
         }, {
             projectId: param.projectId
-        }).exec(function (err, p) {
+        }).populate('packages').exec(function (err, p) {
             console.log(p);
             project = p;
             cb();
@@ -73,17 +73,26 @@ function setProjectWithPackages(req, res) {
     series.push(function (cb) {
         console.log("Update packages");
 
-        Project.update({
-            projectId: project.projectId
-        }, {
-            packages: packages
-        }).exec(function (err, p) {
+        packages.forEach(function (pkgId) {
+            project.packages.add(pkgId);
+        });
+        project.save(function (err) {
             console.log(err);
-            console.log(p);
 
-            project = p;
             cb();
         });
+        //        Project.update({
+        //            projectId: project.projectId
+        //        }, {
+        //            packages: packages
+        //        }).exec(function(err, p: TProject) {
+        //
+        //            console.log(err);
+        //            console.log(p);
+        //
+        //            project = p;
+        //            cb();
+        //        });
     });
 
     // finalize

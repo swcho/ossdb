@@ -11,6 +11,7 @@ export var attributes = {
         unique: true
     },
     packages: {
-        collection: 'Package'
+        collection: 'package',
+        via: 'projects'
     }
 };
