@@ -26,5 +26,5 @@ interface Model<T, H extends TCriteria> {
     populateAll(): Model<T, H>;
     skip(): Model<T, H>;
     sort(): Model<T, H>;
-    where(): Model<T, H>;
+    where(criteria: any): Model<T, H>;
 }

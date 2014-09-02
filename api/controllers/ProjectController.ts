@@ -37,6 +37,55 @@ function test(req, res) {
 
 module.exports.test = test;
 
+function detail(req, res) {
+    var id = req.param('id');
+    var project;
+    var series = [];
+    var packagesToGetLicense = [];
+    series.push(function(cb) {
+        Project.findOne({
+            id: id
+        }).populate('packages').exec(function(err, p) {
+            project = p;
+            project.packages.forEach(function (pkg) {
+                if (pkg.license) {
+                    packagesToGetLicense.push(pkg);
+                }
+            });
+            cb();
+        })
+    });
+
+    series.push(function(cb) {
+        var licenseIds = [];
+        packagesToGetLicense.forEach(function (pkg) {
+            licenseIds.push(pkg.license);
+        });
+
+        console.log('get license info');
+        console.log(licenseIds);
+
+        License.find().where({
+            id: licenseIds
+        }).exec(function(err, licenseList) {
+            licenseList.forEach(function (l, index) {
+
+                console.log(packagesToGetLicense[index]);
+                console.log(l);
+
+                packagesToGetLicense[index].license = l;
+            });
+            cb();
+        });
+    });
+
+    async.series(series, function(err) {
+        res.json(project);
+    });
+}
+
+module.exports.detail = detail;
+
 function setProjectWithPackages(req, res) {
     var param: TSetProjectWithPackagesParam = req.body;
 
@@ -55,7 +104,7 @@ function setProjectWithPackages(req, res) {
     var series = [];
 
     // get previous project item
-    series.push((cb) => {
+    series.push(function (cb) {
 
         console.log('get project or create');
 
