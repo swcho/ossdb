@@ -7,7 +7,8 @@
 
 export var attributes = {
     projectId: {
-        type: 'string'
+        type: 'string',
+        unique: true
     },
     packages: {
         collection: 'Package'

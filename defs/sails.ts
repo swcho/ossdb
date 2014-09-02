@@ -11,12 +11,12 @@ interface Model<T, H extends TCriteria> {
     create(criteria?: any): Model<T, H>;
     destroy(criteria?: any): Model<T, H>;
     find(criteria?: any): Model<T, H>;
-    findOne(criteria?: H): Model<T, H>;
-    findOrCreate(criteria?: any): Model<T, H>;
+    findOne(criteria: any): Model<T, H>;
+    findOrCreate(criteria: any, data: any): Model<T, H>;
     native(criteria?: any): Model<T, H>;
     query(criteria?: any): Model<T, H>;
     stream(criteria?: any): Model<T, H>;
-    update(criteria?: any): Model<T, H>;
+    update(criteria: any, data: any): Model<T, H>;
 
     // Queries
     exec(cb: (err: any, items: T[]) => void): Model<T, H>;

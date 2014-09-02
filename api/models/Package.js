@@ -9,7 +9,8 @@ module.exports = {
 
   attributes: {
       name: {
-          type: 'string'
+          type: 'string',
+          unique: true
       },
       ossp: {
           model: 'Ossp'

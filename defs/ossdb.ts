@@ -42,10 +42,12 @@ interface ProjectModel extends Model<TProject, TProject> {
 declare var Project: ProjectModel;
 
 interface TPackage {
+    id?: number;
     name: string;
-    ossp: TOssp;
-    license: TLicense;
-    projects: TProject[];
+    type?: string;
+    ossp?: TOssp;
+    license?: TLicense;
+    projects?: TProject[];
 }
 
 interface PackageModel extends Model<TPackage, TPackage> {
