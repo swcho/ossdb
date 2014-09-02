@@ -40,6 +40,12 @@ module.exports = function () {
                     });
                 });
             });
+        },
+
+        hi: function (req, res) {
+            res.json({
+                message: 'hi'
+            });
         }
     };
 };
