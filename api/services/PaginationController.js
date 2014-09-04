@@ -33,6 +33,9 @@ module.exports = function () {
                 });
             }
             q.skip((no - 1) * limit).limit(limit).sort(sort).exec(function findCB(err, found) {
+
+                console.log(err);
+
                 Model.count().exec(function (err, count) {
                     res.json({
                         count: count,
