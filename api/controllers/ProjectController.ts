@@ -6,7 +6,6 @@
 /// <reference path="../../defs/ossdb.ts" />
 
 import async = require('async');
-
 module.exports = require("../services/PaginationController")();
 
 export interface TPackageInfo {
@@ -28,16 +27,7 @@ export interface TSetProjectWithPackagesResp {
     packageNamesRemoved: string[];
 }
 
-function test(req, res) {
-    console.log('test');
-    res.json({
-        message: 'hi'
-    });
-}
-
-module.exports.test = test;
-
-function detail(req, res) {
+module.exports.detail = function (req, res) {
     var id = req.param('id');
     var project;
     var series = [];
@@ -46,13 +36,15 @@ function detail(req, res) {
         Project.findOne({
             id: id
         }).populate('packages').exec(function(err, p) {
-            project = p;
-            project.packages.forEach(function (pkg) {
-                if (pkg.license) {
-                    packagesToGetLicense.push(pkg);
-                }
-            });
-            cb();
+            if (p) {
+                project = p;
+                project.packages.forEach(function (pkg) {
+                    if (pkg.license) {
+                        packagesToGetLicense.push(pkg);
+                    }
+                });
+            }
+            cb(err);
         })
     });
 
@@ -82,11 +74,9 @@ function detail(req, res) {
     async.series(series, function(err) {
         res.json(project);
     });
-}
+};
 
-module.exports.detail = detail;
-
-function setProjectWithPackages(req, res) {
+module.exports.setProjectWithPackages = function (req, res) {
     var param: TSetProjectWithPackagesParam = req.body;
 
     console.log(JSON.stringify(param));
@@ -183,4 +173,13 @@ function setProjectWithPackages(req, res) {
 
 };
 
-module.exports.setProjectWithPackages = setProjectWithPackages;
+module.exports.importOpenHub = function(req, res) {
+    var url = req.param('url');
+    console.log(url);
+
+    var resp = {
+
+    };
+
+    res.json(resp);
+};

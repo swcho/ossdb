@@ -4,19 +4,9 @@
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
 var async = require('async');
-
 module.exports = require("../services/PaginationController")();
 
-function test(req, res) {
-    console.log('test');
-    res.json({
-        message: 'hi'
-    });
-}
-
-module.exports.test = test;
-
-function detail(req, res) {
+module.exports.detail = function (req, res) {
     var id = req.param('id');
     var project;
     var series = [];
@@ -25,13 +15,15 @@ function detail(req, res) {
         Project.findOne({
             id: id
         }).populate('packages').exec(function (err, p) {
-            project = p;
-            project.packages.forEach(function (pkg) {
-                if (pkg.license) {
-                    packagesToGetLicense.push(pkg);
-                }
-            });
-            cb();
+            if (p) {
+                project = p;
+                project.packages.forEach(function (pkg) {
+                    if (pkg.license) {
+                        packagesToGetLicense.push(pkg);
+                    }
+                });
+            }
+            cb(err);
         });
     });
 
@@ -60,11 +52,9 @@ function detail(req, res) {
     async.series(series, function (err) {
         res.json(project);
     });
-}
+};
 
-module.exports.detail = detail;
-
-function setProjectWithPackages(req, res) {
+module.exports.setProjectWithPackages = function (req, res) {
     var param = req.body;
 
     console.log(JSON.stringify(param));
@@ -151,8 +141,14 @@ function setProjectWithPackages(req, res) {
     });
 
     async.series(series);
-}
-;
+};
 
-module.exports.setProjectWithPackages = setProjectWithPackages;
+module.exports.importOpenHub = function (req, res) {
+    var url = req.param('url');
+    console.log(url);
+
+    var resp = {};
+
+    res.json(resp);
+};
 //# sourceMappingURL=ProjectController.js.map

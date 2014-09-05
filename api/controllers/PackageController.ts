@@ -1,12 +1,13 @@
 /**
-* PackageController
-*
-* @description :: Server-side logic for managing packages
-* @help        :: See http://links.sailsjs.org/docs/controllers
-*/
+ * PackageController
+ *
+ * @description :: Server-side logic for managing packages
+ * @help        :: See http://links.sailsjs.org/docs/controllers
+ */
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
-var openhub = require('../services/OpenHubService');
+
+import openhub = require('../services/OpenHubService');
 
 module.exports = require("../services/PaginationController")();
 var page = module.exports.page;
@@ -21,14 +22,14 @@ module.exports.searchInfo = function (req, res) {
         package: null,
         openhub: null
     };
-    Package.findOne(id).exec(function (err, pkg) {
+    Package.findOne(id).exec(function (err, pkg: TPackage) {
         console.log(pkg);
         resp.package = pkg;
 
-        openhub.queryProject(pkg.name, function (result) {
+        openhub.queryProject(pkg.name, function(result) {
             resp.openhub = result;
             res.json(resp);
         });
+
     });
 };
-//# sourceMappingURL=PackageController.js.map

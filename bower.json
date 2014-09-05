@@ -1,0 +1,19 @@
+{
+  "name": "ossdb",
+  "version": "0.0.0",
+  "homepage": "https://github.com/swcho/ossdb",
+  "authors": [
+    "sungwoo <swforgemaster@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.6.4"
+  }
+}
