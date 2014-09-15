@@ -1,13 +1,17 @@
 /**
-* Created by sungwoo on 14. 9. 15.
-*/
+ * Created by sungwoo on 14. 9. 15.
+ */
+
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
-var OpenHubService = require('../services/OpenHubService');
+
+import OpenHubService = require('../services/OpenHubService');
+import async = require('async');
 
 module.exports = require("../services/PaginationController")();
 
-module.exports.importOpenHub = function (req, res) {
+module.exports.importOpenHub = function(req, res) {
+
     var url = req.param('url');
     var resp = {
         url: url,
@@ -15,7 +19,8 @@ module.exports.importOpenHub = function (req, res) {
         license: null
     };
 
-    OpenHubService.getLicenseInfo(url, function (err, licenseInfo) {
+    OpenHubService.getLicenseInfo(url, function(err, licenseInfo: OpenHubService.TLicenseInfo) {
+
         if (err) {
             res.send(err);
             return;
@@ -30,7 +35,7 @@ module.exports.importOpenHub = function (req, res) {
             shortName: licenseInfo.abbreviation,
             description: licenseInfo.licenseText,
             url: licenseInfo.homepage
-        }).exec(function (err, license) {
+        }).exec(function(err, license) {
             if (err) {
                 res.send(err);
                 return;
@@ -38,6 +43,6 @@ module.exports.importOpenHub = function (req, res) {
             resp.license = license;
             res.json(resp);
         });
+
     });
 };
-//# sourceMappingURL=LicenseController.js.map
