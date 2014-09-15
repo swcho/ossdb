@@ -42,5 +42,8 @@
     "url": "git://github.com/sungwoo/ossdb.git"
   },
   "author": "sungwoo",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "supertest": "^0.13.0"
+  }
 }

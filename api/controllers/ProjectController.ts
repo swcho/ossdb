@@ -6,6 +6,7 @@
 /// <reference path="../../defs/ossdb.ts" />
 
 import async = require('async');
+import OpenHubService = require('../services/OpenHubService');
 module.exports = require("../services/PaginationController")();
 
 export interface TPackageInfo {

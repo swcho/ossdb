@@ -4,6 +4,7 @@
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
 var async = require('async');
+
 module.exports = require("../services/PaginationController")();
 
 module.exports.detail = function (req, res) {

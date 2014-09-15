@@ -5,3 +5,6 @@
 /// <reference path="form-data/form-data.d.ts" />
 /// <reference path="xml2js/xml2js.d.ts" />
 /// <reference path="chai/chai.d.ts" />
+/// <reference path="mocha/mocha.d.ts" />
+/// <reference path="supertest/supertest.d.ts" />
+/// <reference path="superagent/superagent.d.ts" />
