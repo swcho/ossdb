@@ -8,12 +8,15 @@ import supertest = require('supertest');
 describe('Import', function() {
 
     it('import project', function(done) {
-        console.log('import project');
         supertest('http://localhost:1337')
-            .get('/project/importOpenHub')
+            .get('/ossp/importOpenHub')
+            .query({
+                url: 'http://www.openhub.net/p/avahi'
+            })
             .expect(200)
             .end(function(err, res) {
-                console.log(res);
+//                console.log(res.body);
+//                console.log(res.body.url);
                 done(err);
             });
     });

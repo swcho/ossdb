@@ -4,7 +4,6 @@
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
 var async = require('async');
-
 module.exports = require("../services/PaginationController")();
 
 module.exports.detail = function (req, res) {
@@ -142,14 +141,5 @@ module.exports.setProjectWithPackages = function (req, res) {
     });
 
     async.series(series);
-};
-
-module.exports.importOpenHub = function (req, res) {
-    var url = req.param('url');
-    console.log(url);
-
-    var resp = {};
-
-    res.json(resp);
 };
 //# sourceMappingURL=ProjectController.js.map

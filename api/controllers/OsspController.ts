@@ -1,12 +1,14 @@
 /**
-* Created by sungwoo on 14. 9. 15.
-*/
+ * Created by sungwoo on 14. 9. 15.
+ */
+
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
-var OpenHubService = require('../services/OpenHubService');
+
+import OpenHubService = require('../services/OpenHubService');
 module.exports = require("../services/PaginationController")();
 
-module.exports.importOpenHub = function (req, res) {
+module.exports.importOpenHub = function(req, res) {
     var url = req.param('url');
 
     var resp = {
@@ -14,7 +16,7 @@ module.exports.importOpenHub = function (req, res) {
         projectInfo: null
     };
 
-    OpenHubService.getProjectInfo(url, function (err, projectInfo) {
+    OpenHubService.getProjectInfo(url, function(err, projectInfo: OpenHubService.TProjectInfo) {
         resp.projectInfo = projectInfo;
 
         Ossp.findOrCreate({
@@ -23,10 +25,10 @@ module.exports.importOpenHub = function (req, res) {
             name: projectInfo.name,
             description: projectInfo.summary,
             projectUrl: projectInfo.homepage
-        }).exec(function (err, item) {
+        }).exec(function(err, item) {
             console.log(item);
             res.json(resp);
         });
+
     });
 };
-//# sourceMappingURL=OsspController.js.map

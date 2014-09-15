@@ -28,6 +28,7 @@ module OpenHub {
     }
 
     export interface TProjectInfo {
+        name: string;
         homepage: string;
         summary: string;
         licenses: TLicenseInfo [];
@@ -48,6 +49,7 @@ module OpenHub {
         }, function(error: any, response: any, body: any) {
 
             var projectInfo: TProjectInfo = {
+                name: '',
                 homepage: '',
                 summary: '',
                 licenses: []
@@ -59,6 +61,7 @@ module OpenHub {
                 done: function(err, window){
                     //Use jQuery just as in a regular HTML page
                     var $ = window.jQuery;
+                    projectInfo.name = trim($("#project_header h1").text());
                     projectInfo.homepage = $('a:contains("Homepage")').attr("href");
                     projectInfo.summary = trim($('#project_summary').text());
 

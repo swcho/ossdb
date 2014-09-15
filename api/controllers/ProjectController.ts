@@ -6,7 +6,6 @@
 /// <reference path="../../defs/ossdb.ts" />
 
 import async = require('async');
-import OpenHubService = require('../services/OpenHubService');
 module.exports = require("../services/PaginationController")();
 
 export interface TPackageInfo {
@@ -172,15 +171,4 @@ module.exports.setProjectWithPackages = function (req, res) {
 
     async.series(series);
 
-};
-
-module.exports.importOpenHub = function(req, res) {
-    var url = req.param('url');
-    console.log(url);
-
-    var resp = {
-
-    };
-
-    res.json(resp);
 };

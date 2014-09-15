@@ -6,7 +6,7 @@ var gSails;
 before(function(done) {
     Sails.lift({
         log: {
-            level: 'debug'
+            level: 'error'
         },
         environment: 'test'
     }, function(err, sails) {
