@@ -21,7 +21,7 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
   models: {
-      connection: 'localPostgresqlServer'
-  },
-
+      connection: 'localPostgresqlServer',
+      migrate: 'alter'
+  }
 };
