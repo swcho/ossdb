@@ -17,6 +17,7 @@ interface OsspModel extends Model<TOssp, TOssp> {
 declare var Ossp: OsspModel;
 
 interface TLicense {
+    id?: number;
     name: string;
     longName?: string;
     description?: string;

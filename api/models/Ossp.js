@@ -21,6 +21,10 @@ module.exports = {
       packages: {
           collection: 'package',
           via: 'ossp'
+      },
+      licenses: {
+          collection: 'license',
+          via: 'ossps'
       }
   }
 };

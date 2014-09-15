@@ -12,7 +12,7 @@ module.exports = {
           type: 'string',
           unique: true
       },
-      longName: {
+      shortName: {
           type: 'string'
       },
       description: {
@@ -26,6 +26,10 @@ module.exports = {
       },
       distributeSource: {
           type: 'boolean'
+      },
+      ossps: {
+          collection: 'ossp',
+          via: 'licenses'
       },
       packages: {
           collection: 'package',
