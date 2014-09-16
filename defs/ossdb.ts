@@ -56,3 +56,16 @@ interface PackageModel extends Model<TPackage, TPackage> {
 }
 
 declare var Package: PackageModel;
+
+interface TUser {
+    name: string;
+    email: string;
+    title: string;
+    encryptedPassword: string;
+}
+
+interface UserModel extends Model<TUser, TUser> {
+
+}
+
+declare var User: UserModel;

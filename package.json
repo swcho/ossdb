@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "async": "^0.9.0",
+    "bcrypt": "^0.8.0",
     "chai": "^1.9.1",
     "ejs": "~0.8.4",
     "gake": "^0.1.2",
