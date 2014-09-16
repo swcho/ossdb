@@ -36,6 +36,18 @@ export function login(req, res, next) {
     })(req, res, next);
 }
 
+export function getInfo(req, res) {
+//    console.log('getInfo');
+//    console.log(req.user);
+    if (req.isAuthenticated()) {
+        res.json(req.user);
+    } else {
+        res.send(403, {
+            message: 'Not authorized'
+        });
+    }
+}
+
 export function logout(req, res) {
     req.logout();
     res.send('logout successful');

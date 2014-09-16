@@ -33,6 +33,19 @@ function login(req, res, next) {
 }
 exports.login = login;
 
+function getInfo(req, res) {
+    //    console.log('getInfo');
+    //    console.log(req.user);
+    if (req.isAuthenticated()) {
+        res.json(req.user);
+    } else {
+        res.send(403, {
+            message: 'Not authorized'
+        });
+    }
+}
+exports.getInfo = getInfo;
+
 function logout(req, res) {
     req.logout();
     res.send('logout successful');

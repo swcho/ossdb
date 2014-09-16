@@ -52,7 +52,7 @@ declare module "supertest" {
       patch(url: string): Test;
     }
 
-    function agent(): superagent.Agent;
+    function agent(app: any): superagent.Agent;
   }
 
   function supertest(app: any): supertest.SuperTest;
