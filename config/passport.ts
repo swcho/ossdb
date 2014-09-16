@@ -48,4 +48,4 @@ export var express = {
         app.use(passport.initialize());
         app.use(passport.session());
     }
-}
+};
