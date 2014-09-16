@@ -23,7 +23,7 @@ describe('auth', function () {
         }).end(function (err, res) {
             chai.expect(res.body.name).to.equal('Test');
             chai.expect(res.body.email).to.equal('test@test.com');
-            chai.expect(res.body.encryptedPassword).to.not.equal('password');
+            chai.expect(res.body.encryptedPassword).to.not.exist;
             done();
         });
     });

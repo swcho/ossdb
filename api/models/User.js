@@ -20,6 +20,11 @@ exports.attributes = {
     },
     encryptedPassword: {
         type: 'string'
+    },
+    toJSON: function () {
+        var obj = this.toObject();
+        delete obj.encryptedPassword;
+        return obj;
     }
 };
 
