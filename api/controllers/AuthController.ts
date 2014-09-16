@@ -1,18 +1,22 @@
 /**
-* Created by sungwoo on 14. 9. 16.
-*/
+ * Created by sungwoo on 14. 9. 16.
+ */
+
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
-var passport = require('passport');
+
+import passport = require('passport');
 
 //export function login(req, res) {
 //    res.view("auth/login");
 //}
-function login(req, res, next) {
+
+export function login(req, res, next) {
+
     var email = req.param('email');
     var password = req.param('password');
 
-    passport.authenticate('local', function (err, user, info) {
+    passport.authenticate('local', function(err, user, info) {
         if (err || !user) {
             res.send(403, {
                 message: 'login failed'
@@ -20,7 +24,7 @@ function login(req, res, next) {
             return;
         }
 
-        req.logIn(user, function (err) {
+        req.logIn(user, function(err) {
             if (err) {
                 res.send(403, {
                     message: 'invalid password'
@@ -31,11 +35,8 @@ function login(req, res, next) {
         });
     })(req, res, next);
 }
-exports.login = login;
 
-function logout(req, res) {
+export function logout(req, res) {
     req.logout();
     res.send('logout successful');
 }
-exports.logout = logout;
-//# sourceMappingURL=AuthController.js.map

@@ -31,4 +31,14 @@ describe('auth', function() {
         });
     });
 
+    it('auth user', function(done) {
+        ossdb.post('/auth/login').send({
+            email: 'test@test.com',
+            password: 'password'
+        }).end(function(err, res) {
+            console.log(res.body);
+            done();
+        });
+    });
+
 });
