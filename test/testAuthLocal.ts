@@ -7,7 +7,7 @@
 import chai = require('chai');
 import supertest = require('supertest');
 
-describe('auth', function() {
+describe('auth local', function() {
 
     var ossdb = supertest.agent('http://localhost:1337');
 

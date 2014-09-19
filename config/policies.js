@@ -32,7 +32,7 @@ module.exports.policies = {
         create: true
     },
     AuthController: {
-        login: true
+        '*': true
     }
 
     /***************************************************************************

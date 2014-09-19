@@ -5,6 +5,7 @@
 /// <reference path="../defs/ossdb.ts" />
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var LdapStrategy = require('passport-ldapauth').Strategy;
 var bcrypt = require('bcrypt');
 
 passport.serializeUser(function (user, done) {
@@ -40,6 +41,23 @@ passport.use(new LocalStrategy({
             return done(null, user);
         });
     });
+}));
+
+passport.use(new LdapStrategy({
+    usernameField: 'uid',
+    passwordField: 'password',
+    server: {
+        url: 'ldap://doroci-test:389',
+        adminDn: 'cn=admin,dc=example,dc=com',
+        adminPassword: 'humax@!',
+        searchBase: 'dc=example,dc=com',
+        searchFilter: '(uid={{username}})'
+    }
+}, function (user, done) {
+    console.log('LdapStrategy');
+    user.id = user.uid;
+    delete user.userPassword;
+    return done(null, user);
 }));
 
 exports.express = {
