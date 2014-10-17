@@ -11,12 +11,12 @@ var LdapStrategy = require('passport-ldapauth').Strategy;
 var bcrypt = require('bcrypt');
 
 passport.serializeUser(function(user, done) {
-    console.log('serializeUser: id=' + user.id);
+//    console.log('serializeUser: id=' + user.id);
     done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-    console.log('deserializeUser: id=' + id);
+//    console.log('deserializeUser: id=' + id);
     User.findOne(id).exec(function(err, user) {
         done(err, user);
     });
@@ -64,7 +64,7 @@ passport.use(new LdapStrategy({
 
 export var express = {
     customMiddleware: function(app) {
-        console.log('express middleware for passport');
+//        console.log('express middleware for passport');
         app.use(passport.initialize());
         app.use(passport.session());
     }

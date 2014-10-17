@@ -10,8 +10,11 @@ exports.attributes = {
         unique: true
     },
     packages: {
-        collection: 'package',
+        collection: 'Package',
         via: 'projects'
+    },
+    projectSubmit: {
+        model: 'ProjectSubmit'
     }
 };
 //# sourceMappingURL=Project.js.map

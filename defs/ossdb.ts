@@ -69,3 +69,14 @@ interface UserModel extends Model<TUser, TUser> {
 }
 
 declare var User: UserModel;
+
+interface TProjectSubmit {
+    project: TProject;
+    packages: TPackage[];
+}
+
+interface ProjectSubmitModel extends Model<TProjectSubmit, TProjectSubmit> {
+
+}
+
+declare var ProjectSubmit: ProjectSubmitModel;

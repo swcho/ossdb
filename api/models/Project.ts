@@ -11,7 +11,10 @@ export var attributes = {
         unique: true
     },
     packages: {
-        collection: 'package',
+        collection: 'Package',
         via: 'projects'
+    },
+    projectSubmit: {
+        model: 'ProjectSubmit'
     }
 };
