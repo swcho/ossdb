@@ -11,6 +11,18 @@ describe('change log', function() {
 
     var ossdb = supertest.agent('http://localhost:1337');
 
+    var user1 = {
+        name: 'User 1',
+        email: 'user@test.com',
+        password: 'user1Password'
+    };
+
+    var ossp1 = {
+        name: 'OSSP 1',
+        description: 'OSSP 1 Description',
+        projectUrl: 'http://ossp.org'
+    };
+
     var packageCommon = {
         name: 'Package common',
         type: 'lib'
@@ -43,32 +55,49 @@ describe('change log', function() {
         ]
     };
 
-    function assert_user(user) {
-        chai.expect(user.name).to.equal('Test');
-        chai.expect(user.email).to.equal('test@test.com');
-        chai.expect(user.encryptedPassword).to.not.exist;
+    function assertUser(userResp, userFixture) {
+        chai.expect(userResp.name).to.equal(userFixture.name);
+        chai.expect(userResp.email).to.equal(userFixture.email);
+        chai.expect(userResp.password).to.not.exist;
+    }
+
+    function assertOssp(osspResp, osspFixture) {
+        chai.expect(osspResp.name).to.equal(osspFixture.name);
+        chai.expect(osspResp.description).to.equal(osspFixture.description);
+        chai.expect(osspResp.projectUrl).to.equal(osspFixture.projectUrl);
     }
 
     it('create user', function(done) {
-        ossdb.get('/user/create').query({
-            name: 'Test',
-            email: 'test@test.com',
-            password: 'password'
-        }).end(function(err, res) {
-            console.log(res.body);
-            assert_user(res.body);
+        ossdb.get('/user/create').query(user1).end(function(err, res) {
+            assertUser(res.body, user1);
             done();
         });
     });
 
     it('auth user', function(done) {
         ossdb.post('/auth/login').send({
-            email: 'test@test.com',
-            password: 'password'
+            email: user1.email,
+            password: user1.password
         }).end(function(err, res) {
-            assert_user(res.body);
+            assertUser(res.body, user1);
             done();
         });
     });
+
+    it('create new oss project', function(done) {
+        ossdb.get('/ossp/create').query(ossp1).end(function(err, res) {
+            assertOssp(res.body, ossp1);
+            done();
+        });
+    });
+
+    it('check log to be crated', function(done) {
+        ossdb.get('/log').end(function(err, res) {
+            console.log(res.body);
+            chai.expect(res.body).to.be.length(1);
+            assertUser(res.body[0].user, user1);
+            done();
+        });
+    })
 
 });

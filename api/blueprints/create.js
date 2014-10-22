@@ -8,13 +8,20 @@ var origCreateRecord    = require('sails/lib/hooks/blueprints/actions/create');
 module.exports = function createRecord (req, res) {
 
     var model = req.options.model || req.options.controller;
-
-
-    var Model = actionUtil.parseModel(req);
-
-    // Create data object (monolithic combination of all parameters)
-    // Omit the blacklisted params (like JSONP callback param, etc.)
     var data = actionUtil.parseValues(req);
 
-    origCreateRecord(req, res);
+    if (req.user) {
+        Log.create({
+            user: req.user.id,
+            controller: req.options.controller,
+            api: req.options.action,
+            data: data
+        }).exec(function(err, item) {
+
+            origCreateRecord(req, res);
+        });
+    } else {
+        origCreateRecord(req, res);
+    }
+
 };
