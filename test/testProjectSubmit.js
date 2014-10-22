@@ -1,14 +1,11 @@
 /**
- * Created by sungwoo on 14. 9. 16.
- */
-
+* Created by sungwoo on 14. 9. 16.
+*/
 /// <reference path="../typings/tsd.d.ts" />
+var chai = require('chai');
+var supertest = require('supertest');
 
-import chai = require('chai');
-import supertest = require('supertest');
-
-describe('project submit', function() {
-
+describe('project submit', function () {
     var ossdb = supertest.agent('http://localhost:1337');
 
     var packageCommon = {
@@ -23,7 +20,6 @@ describe('project submit', function() {
         name: 'Package 3',
         type: 'lib'
     };
-
 
     var projectA = {
         projectId: 'projectA'
@@ -49,38 +45,36 @@ describe('project submit', function() {
         chai.expect(user.encryptedPassword).to.not.exist;
     }
 
-    it('create user', function(done) {
+    it('create user', function (done) {
         ossdb.get('/user/create').query({
             name: 'Test',
             email: 'test@test.com',
             password: 'password'
-        }).end(function(err, res) {
+        }).end(function (err, res) {
             assert_user(res.body);
             done();
         });
     });
 
-    it('auth user', function(done) {
+    it('auth user', function (done) {
         ossdb.post('/auth/login').send({
             email: 'test@test.com',
             password: 'password'
-        }).end(function(err, res) {
+        }).end(function (err, res) {
             assert_user(res.body);
             done();
         });
     });
 
-    it('submit project without id', function(done) {
-        ossdb.post('/project/setProjectWithPackages/').send({
-
-        }).end(function(err, res) {
+    it('submit project without id', function (done) {
+        ossdb.post('/project/setProjectWithPackages/').send({}).end(function (err, res) {
             chai.expect(res.status).to.equal(400);
             done();
         });
     });
 
-    it('submit Project A only id', function(done) {
-        ossdb.post('/project/setProjectWithPackages').send(projectA).end(function(err, res) {
+    it('submit Project A only id', function (done) {
+        ossdb.post('/project/setProjectWithPackages').send(projectA).end(function (err, res) {
             chai.expect(res.status).to.equal(200);
             chai.expect(res.body.ok).to.true;
             chai.expect(res.body.projectAdded).to.true;
@@ -91,8 +85,8 @@ describe('project submit', function() {
         });
     });
 
-    it('submit Project B with packages', function(done) {
-        ossdb.post('/project/setProjectWithPackages').send(projectB).end(function(err, res) {
+    it('submit Project B with packages', function (done) {
+        ossdb.post('/project/setProjectWithPackages').send(projectB).end(function (err, res) {
             chai.expect(res.status).to.equal(200);
             chai.expect(res.body.ok).to.true;
             chai.expect(res.body.projectAdded).to.true;
@@ -103,8 +97,8 @@ describe('project submit', function() {
         });
     });
 
-    it('submit Project C with packages', function(done) {
-        ossdb.post('/project/setProjectWithPackages').send(projectC).end(function(err, res) {
+    it('submit Project C with packages', function (done) {
+        ossdb.post('/project/setProjectWithPackages').send(projectC).end(function (err, res) {
             chai.expect(res.status).to.equal(200);
             chai.expect(res.body.ok).to.true;
             chai.expect(res.body.projectAdded).to.true;
@@ -115,17 +109,18 @@ describe('project submit', function() {
         });
     });
 
-    it('check project list', function(done) {
-        ossdb.get('/project').end(function(err, res) {
+    it('check project list', function (done) {
+        ossdb.get('/project').end(function (err, res) {
             chai.expect(res.status).to.equal(200);
-//            console.log(res.body);
+
+            //            console.log(res.body);
             chai.expect(res.body).is.length(3);
             var projects = [
                 projectA,
                 projectB,
                 projectC
             ];
-            res.body.forEach(function(p, i) {
+            res.body.forEach(function (p, i) {
                 var fp = projects[i];
                 chai.expect(p.projectId).to.equal(fp.projectId);
             });
@@ -134,15 +129,15 @@ describe('project submit', function() {
         });
     });
 
-    it('check submit list', function(done) {
-        ossdb.get('/ProjectSubmit').end(function(err, res) {
+    it('check submit list', function (done) {
+        ossdb.get('/ProjectSubmit').end(function (err, res) {
             console.log(res.body);
             chai.expect(res.body).is.length(3);
-            res.body.forEach(function(submitInfo) {
+            res.body.forEach(function (submitInfo) {
                 chai.expect(submitInfo.user.name).to.equal('Test');
             });
             done();
         });
     });
-
 });
+//# sourceMappingURL=testProjectSubmit.js.map
