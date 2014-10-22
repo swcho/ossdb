@@ -8,7 +8,10 @@ module.exports = {
         user: {
             model: 'User'
         },
-        model: {
+        controller: {
+            type: 'string'
+        },
+        action: {
             type: 'string'
         },
         values: {

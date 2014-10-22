@@ -33,6 +33,15 @@ module.exports.policies = {
     },
     AuthController: {
         '*': true
+    },
+    OsspController: {
+        '*': ['authenticated', 'logging']
+    },
+    ProjectController: {
+        '*': ['authenticated', 'logging']
+    },
+    LicenseController: {
+        '*': ['authenticated', 'logging']
     }
 
     /***************************************************************************
