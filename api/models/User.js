@@ -21,9 +21,6 @@ exports.attributes = {
     encryptedPassword: {
         type: 'string'
     },
-    userPassword: {
-        type: 'string'
-    },
     toJSON: function () {
         var obj = this.toObject();
         delete obj.encryptedPassword;
@@ -45,7 +42,7 @@ function beforeCreate(user, cb) {
                 cb(err);
                 return;
             }
-
+            delete user.password;
             user.encryptedPassword = hash;
             cb(null, user);
         });

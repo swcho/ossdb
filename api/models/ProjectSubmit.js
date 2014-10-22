@@ -4,8 +4,11 @@
 module.exports = {
 
     attributes: {
+        user: {
+            model: 'User'
+        },
         project: {
-            model: 'project'
+            model: 'Project'
         },
         packages: 'text'
     }

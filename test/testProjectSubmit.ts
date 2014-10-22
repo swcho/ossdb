@@ -139,6 +139,9 @@ describe('project submit', function() {
         ossdb.get('/ProjectSubmit').end(function(err, res) {
             console.log(res.body);
             chai.expect(res.body).is.length(3);
+            res.body.forEach(function(submitInfo) {
+                chai.expect(submitInfo.user.name).to.equal('Test');
+            });
             done();
         });
     });

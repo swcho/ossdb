@@ -79,6 +79,7 @@ module.exports.detail = function (req, res) {
 module.exports.setProjectWithPackages = function (req, res) {
     var param: TSetProjectWithPackagesParam = req.body;
 //    console.log('setProjectWithPackages');
+//    console.log(req.user);
 //    console.log(JSON.stringify(param));
 
     // validate project id exists
@@ -202,8 +203,9 @@ module.exports.setProjectWithPackages = function (req, res) {
 
     series.push(function(cb) {
 
-        console.log('add submit history');
+//        console.log('add submit history');
         ProjectSubmit.create({
+            user: req.user.id,
             project: project.id,
             packages: JSON.stringify(param.packageInfoList)
         }).exec(function(err, resp) {
@@ -211,7 +213,7 @@ module.exports.setProjectWithPackages = function (req, res) {
                 console.log(err);
             }
             if (resp) {
-                console.log(resp);
+//                console.log(resp);
             }
             cb(err);
         });
