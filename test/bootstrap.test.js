@@ -11,7 +11,6 @@ before(function (done) {
         if (err) {
             return done(err);
         }
-
         //        barrels.populate(function(err) {
         //            done(err, sails);
         //        });
@@ -21,7 +20,6 @@ before(function (done) {
         done(err);
     });
 });
-
 after(function (done) {
     gSails.lower(done);
 });

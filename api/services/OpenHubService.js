@@ -1,6 +1,6 @@
 /**
-* Created by sungwoo on 14. 9. 5.
-*/
+ * Created by sungwoo on 14. 9. 5.
+ */
 /// <reference path="../../typings/tsd.d.ts" />
 var request = require('request');
 var xml2js = require('xml2js');
@@ -8,17 +8,14 @@ var async = require('async');
 var url = require('url');
 var jsdom = require('jsdom');
 var trim = require('trim');
-
 var OpenHub;
 (function (OpenHub) {
     //https://www.openhub.net/p.xml?api_key=RbLeBswjUFhuHhAUM7QhQ&query=libusb
     var baseUrl = 'https://www.openhub.net';
     var KHostName = 'www.openhub.net';
     var apiKey = 'RbLeBswjUFhuHhAUM7QhQ';
-
     //var jqueryPath = '../../bower_components/jquery/dist/jquery.min.js';
     var jqueryPath = '../../bower_components/jquery/jquery.js';
-
     function queryProject(text, cb) {
         var url = baseUrl + '/p.xml?api_key=' + apiKey + '&query=' + text;
         request.get(url, function (error, response, body) {
@@ -28,7 +25,6 @@ var OpenHub;
         });
     }
     OpenHub.queryProject = queryProject;
-
     function getProjectInfo(aUrl, cb) {
         request({
             url: aUrl
@@ -39,7 +35,6 @@ var OpenHub;
                 summary: '',
                 licenses: []
             };
-
             jsdom.env({
                 html: body,
                 scripts: ['http://code.jquery.com/jquery-1.6.min.js'],
@@ -49,7 +44,6 @@ var OpenHub;
                     projectInfo.name = trim($("#project_header h1").text());
                     projectInfo.homepage = $('a:contains("Homepage")').attr("href");
                     projectInfo.summary = trim($('#project_summary').text());
-
                     var series = [];
                     $('[itemProp=publishingPrinciples]').children('a').each(function () {
                         var licenseUrl = $(this).attr("href");
@@ -65,7 +59,8 @@ var OpenHub;
                             projectInfo.licenses = licenseInfoList;
                             cb(err, projectInfo);
                         });
-                    } else {
+                    }
+                    else {
                         cb(err, projectInfo);
                     }
                 }
@@ -73,7 +68,6 @@ var OpenHub;
         });
     }
     OpenHub.getProjectInfo = getProjectInfo;
-
     function getLicenseInfo(url, cb) {
         request({
             url: url
@@ -84,7 +78,6 @@ var OpenHub;
                 homepage: '',
                 licenseText: ''
             };
-
             jsdom.env({
                 html: body,
                 scripts: [jqueryPath],
@@ -97,7 +90,8 @@ var OpenHub;
                     if (match) {
                         licenseInfo.name = trim(match[1]);
                         licenseInfo.abbreviation = trim(match[2]);
-                    } else {
+                    }
+                    else {
                         licenseInfo.name = trim(title);
                     }
                     var $licenseUrlLabel = $('p:contains("Read more about this license")');
@@ -111,6 +105,5 @@ var OpenHub;
     }
     OpenHub.getLicenseInfo = getLicenseInfo;
 })(OpenHub || (OpenHub = {}));
-
 module.exports = OpenHub;
 //# sourceMappingURL=OpenHubService.js.map

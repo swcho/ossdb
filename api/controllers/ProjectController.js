@@ -1,11 +1,10 @@
 /**
-* Created by sungwoo on 14. 9. 1.
-*/
+ * Created by sungwoo on 14. 9. 1.
+ */
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
 var async = require('async');
 module.exports = require("../services/PaginationController")();
-
 module.exports.detail = function (req, res) {
     var id = req.param('id');
     var project;
@@ -26,37 +25,30 @@ module.exports.detail = function (req, res) {
             cb(err);
         });
     });
-
     series.push(function (cb) {
         var licenseIds = [];
         packagesToGetLicense.forEach(function (pkg) {
             licenseIds.push(pkg.license);
         });
-
         console.log('get license info');
         console.log(licenseIds);
-
         License.find().where({
             id: licenseIds
         }).exec(function (err, licenseList) {
             licenseList.forEach(function (l, index) {
                 console.log(packagesToGetLicense[index]);
                 console.log(l);
-
                 packagesToGetLicense[index].license = l;
             });
             cb();
         });
     });
-
     async.series(series, function (err) {
         res.json(project);
     });
 };
-
 module.exports.setProjectWithPackages = function (req, res) {
     var param = req.body;
-
     //    console.log('setProjectWithPackages');
     //    console.log(req.user);
     //    console.log(JSON.stringify(param));
@@ -68,8 +60,7 @@ module.exports.setProjectWithPackages = function (req, res) {
         return;
     }
     param.packageInfoList = param.packageInfoList || [];
-
-    var project;
+    var project; //: TProject;
     var resp = {
         ok: false,
         projectAdded: false,
@@ -78,9 +69,7 @@ module.exports.setProjectWithPackages = function (req, res) {
         packageNamesAdded: [],
         packageNamesRemoved: []
     };
-
     var series = [];
-
     series.push(function (cb) {
         //        console.log('check project exists');
         Project.findOne({
@@ -88,13 +77,13 @@ module.exports.setProjectWithPackages = function (req, res) {
         }).exec(function (err, p) {
             if (p) {
                 resp.projectUpdated = true;
-            } else {
+            }
+            else {
                 resp.projectAdded = true;
             }
             cb(err);
         });
     });
-
     // get previous project item
     series.push(function (cb) {
         //        console.log('get project or create');
@@ -126,7 +115,6 @@ module.exports.setProjectWithPackages = function (req, res) {
             cb(err);
         });
     });
-
     // get package id list
     var packages = [];
     param.packageInfoList.forEach(function (info) {
@@ -154,7 +142,6 @@ module.exports.setProjectWithPackages = function (req, res) {
             });
         });
     });
-
     // set project with packages
     series.push(function (cb) {
         //        console.log("Update packages");
@@ -169,7 +156,6 @@ module.exports.setProjectWithPackages = function (req, res) {
             cb(err);
         });
     });
-
     series.push(function (cb) {
         //        console.log('add submit history');
         ProjectSubmit.create({
@@ -181,19 +167,18 @@ module.exports.setProjectWithPackages = function (req, res) {
                 console.log(err);
             }
             if (resp) {
-                //                console.log(resp);
             }
             cb(err);
         });
     });
-
     async.series(series, function (err) {
         if (err) {
             res.send(500, {
                 message: err,
                 info: resp
             });
-        } else {
+        }
+        else {
             resp.ok = true;
             res.json(resp);
         }

@@ -1,12 +1,10 @@
 /**
-* Created by sungwoo on 14. 9. 15.
-*/
+ * Created by sungwoo on 14. 9. 15.
+ */
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../defs/ossdb.ts" />
 var OpenHubService = require('../services/OpenHubService');
-
 module.exports = require("../services/PaginationController")();
-
 module.exports.importOpenHub = function (req, res) {
     var url = req.param('url');
     var resp = {
@@ -14,15 +12,12 @@ module.exports.importOpenHub = function (req, res) {
         licenseInfo: null,
         license: null
     };
-
     OpenHubService.getLicenseInfo(url, function (err, licenseInfo) {
         if (err) {
             res.send(err);
             return;
         }
-
         resp.licenseInfo = licenseInfo;
-
         License.findOrCreate({
             name: licenseInfo.name
         }, {

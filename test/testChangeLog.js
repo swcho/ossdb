@@ -1,35 +1,29 @@
 /**
-* Created by sungwoo on 14. 9. 16.
-*/
+ * Created by sungwoo on 14. 9. 16.
+ */
 /// <reference path="../typings/tsd.d.ts" />
 var chai = require('chai');
 var supertest = require('supertest');
-
 describe('change log', function () {
     var ossdb = supertest.agent('http://localhost:1337');
-
     var user1 = {
         name: 'User 1',
         email: 'user1@test.com',
         password: 'user1Password'
     };
-
     var user2 = {
         name: 'User 2',
         email: 'user2@test.com',
         password: 'user2Password'
     };
-
     var ossp1 = {
         name: 'OSSP 1',
         description: 'OSSP 1 Description',
         projectUrl: 'http://ossp.org'
     };
-
     var license1 = {
         name: 'License 1'
     };
-
     var packageCommon = {
         name: 'Package common',
         type: 'lib'
@@ -42,7 +36,6 @@ describe('change log', function () {
         name: 'Package 3',
         type: 'lib'
     };
-
     var projectA = {
         projectId: 'projectA'
     };
@@ -60,26 +53,22 @@ describe('change log', function () {
             package3
         ]
     };
-
     function assertUser(userResp, userFixture) {
         chai.expect(userResp.name).to.equal(userFixture.name);
         chai.expect(userResp.email).to.equal(userFixture.email);
         chai.expect(userResp.password).to.not.exist;
     }
-
     function assertOssp(osspResp, osspFixture) {
         chai.expect(osspResp.name).to.equal(osspFixture.name);
         chai.expect(osspResp.description).to.equal(osspFixture.description);
         chai.expect(osspResp.projectUrl).to.equal(osspFixture.projectUrl);
     }
-
     it('create user', function (done) {
         ossdb.get('/user/create').query(user1).end(function (err, res) {
             assertUser(res.body, user1);
             done();
         });
     });
-
     it('auth user', function (done) {
         ossdb.post('/auth/login').send({
             email: user1.email,
@@ -89,7 +78,6 @@ describe('change log', function () {
             done();
         });
     });
-
     var ossp1Id;
     it('create new oss project', function (done) {
         ossdb.get('/ossp/create').query(ossp1).end(function (err, res) {
@@ -98,7 +86,6 @@ describe('change log', function () {
             done();
         });
     });
-
     it('check log to be created', function (done) {
         ossdb.get('/log').end(function (err, res) {
             chai.expect(res.body).to.be.length(1);
@@ -108,14 +95,12 @@ describe('change log', function () {
             done();
         });
     });
-
     it('crete new project', function (done) {
         ossdb.post('/project').send(projectA).end(function (err, res) {
             chai.expect(res.status).to.equal(200);
             done();
         });
     });
-
     it('check log to be created', function (done) {
         ossdb.get('/log').end(function (err, res) {
             chai.expect(res.body).to.be.length(2);
@@ -125,14 +110,12 @@ describe('change log', function () {
             done();
         });
     });
-
     it('crete new license', function (done) {
         ossdb.post('/license').send(license1).end(function (err, res) {
             chai.expect(res.status).to.equal(200);
             done();
         });
     });
-
     it('check log to be created', function (done) {
         ossdb.get('/log').end(function (err, res) {
             chai.expect(res.body).to.be.length(3);
@@ -142,14 +125,12 @@ describe('change log', function () {
             done();
         });
     });
-
     it('create user2', function (done) {
         ossdb.get('/user/create').query(user2).end(function (err, res) {
             assertUser(res.body, user2);
             done();
         });
     });
-
     it('auth user2', function (done) {
         ossdb.post('/auth/login').send({
             email: user2.email,
@@ -159,7 +140,6 @@ describe('change log', function () {
             done();
         });
     });
-
     it('update oss project', function (done) {
         ossdb.put('/ossp/' + ossp1Id).query({
             projectUrl: 'http://newossp1.org'
@@ -167,7 +147,6 @@ describe('change log', function () {
             done();
         });
     });
-
     it('check log to be created', function (done) {
         ossdb.get('/log').end(function (err, res) {
             console.log(res.body);

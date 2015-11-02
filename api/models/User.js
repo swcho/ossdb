@@ -1,9 +1,8 @@
 /**
-* Created by sungwoo on 14. 9. 16.
-*/
+ * Created by sungwoo on 14. 9. 16.
+ */
 /// <reference path="../../typings/tsd.d.ts" />
 var bcrypt = require('bcrypt');
-
 exports.attributes = {
     name: {
         type: 'string',
@@ -27,7 +26,6 @@ exports.attributes = {
         return obj;
     }
 };
-
 function beforeCreate(user, cb) {
     bcrypt.genSalt(10, function (err, salt) {
         if (err) {
@@ -35,7 +33,6 @@ function beforeCreate(user, cb) {
             cb(err);
             return;
         }
-
         bcrypt.hash(user.password, salt, function (err, hash) {
             if (err) {
                 console.log(err);

@@ -1,10 +1,10 @@
 /**
  * Created by sungwoo on 14. 9. 16.
  */
-/// <reference path="../typings/tsd.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 var chai = require('chai');
 var supertest = require('supertest');
-describe('auth ldap', function () {
+describe('auth local', function () {
     var ossdb = supertest.agent('http://localhost:1337');
     function assert_user(user) {
         chai.expect(user.name).to.equal('Test');
@@ -29,29 +29,26 @@ describe('auth ldap', function () {
         });
     });
     it('auth user', function (done) {
-        ossdb.post('/auth/loginLDAP').send({
-            uid: 'alan',
-            password: '1'
+        ossdb.post('/auth/login').send({
+            email: 'test@test.com',
+            password: 'password'
         }).end(function (err, res) {
-            console.log(err);
-            console.log(res.body);
-            //            assert_user(res.body);
+            assert_user(res.body);
             done();
         });
     });
-    //    it('get login info', function(done) {
-    //        ossdb.get('/auth/getInfo').end(function(err, res) {
-    //            assert_user(res.body);
-    //            done();
-    //        });
-    //    });
-    //
-    //    it('has no user', function(done) {
-    //        ossdb.get('/user').end(function(err, res) {
-    //            chai.expect(res.unauthorized).to.be.false;
-    //            assert_user(res.body[0]);
-    //            done();
-    //        });
-    //    });
+    it('get login info', function (done) {
+        ossdb.get('/auth/getInfo').end(function (err, res) {
+            assert_user(res.body);
+            done();
+        });
+    });
+    it('has no user', function (done) {
+        ossdb.get('/user').end(function (err, res) {
+            chai.expect(res.unauthorized).to.be.false;
+            assert_user(res.body[0]);
+            done();
+        });
+    });
 });
-//# sourceMappingURL=testAuthLdap.js.map
+//# sourceMappingURL=testAuthLocal.js.map
