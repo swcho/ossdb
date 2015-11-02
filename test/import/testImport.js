@@ -29,7 +29,7 @@ describe('Import', function () {
     //    });
     //});
     it('import project', function (done) {
-        ossdb.get('/license/importOpenHub').query({
+        ossdb.get('/ossp/importOpenHub').query({
             url: 'https://www.openhub.net/p/avahi'
         }).expect(200).end(function (err, res) {
             chai.expect(res.body.url).to.equal('https://www.openhub.net/p/avahi');

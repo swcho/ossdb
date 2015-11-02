@@ -37,7 +37,7 @@ describe('Import', function() {
     //});
 
     it('import project', function(done) {
-        ossdb.get('/license/importOpenHub')
+        ossdb.get('/ossp/importOpenHub')
             .query({
                 url: 'https://www.openhub.net/p/avahi'
             })

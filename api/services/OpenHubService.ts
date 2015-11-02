@@ -8,6 +8,7 @@ import request = require('request');
 import xml2js = require('xml2js');
 import async = require('async');
 import url = require('url');
+import fs = require('fs');
 var jsdom = require('jsdom');
 var trim = require('trim');
 
@@ -125,43 +126,35 @@ module OpenHub {
         });
     }
 
-    function get_info_from_ohloh(aFileName: string, aSearchId: string, aCb: (ohlohInfo) => void) {
-        var retrieve = true;
-        if (fs.existsSync(aFileName)) {
-            var stat = fs.statSync(aFileName);
-            if (now.getTime() -  stat.mtime.getTime() < time1day) {
-                retrieve = false;
-            }
-        }
+    var now = new Date();
+    var time1day = 24 * 60 * 60 * 1000;
+    var ohloh_key = '2aca6bce1ba6121aa4d733e16095baf5e37d2a0b8b1a776f822c09d87a4a9ad9';
+    //var ohloh_key = '';
 
-        if (retrieve) {
-            https.get('https://www.ohloh.net/p.xml?api_key=' + ohloh_key + '&query=' + aSearchId, (res) => {
-                var allData = '';
-                res.on('data', (data) => {
-                    allData += data.toString();
-                });
-                res.on('end', () => {
-//                    common.debug(allData);
-                    xml2js.parseString(allData, (err, searchResult) => {
-                        fs.writeFileSync(aFileName + '.xml', allData);
-                        if (searchResult && searchResult.response.items_returned[0] != '0') {
-                            fs.writeFileSync(aFileName, JSON.stringify(searchResult, null, 4));
-                            aCb(searchResult);
-                        } else {
-                            fs.writeFileSync(aFileName, "");
-                            aCb(null);
-                        }
-                    });
+    //https://www.openhub.net/projects.xml?query=java&page=2
+
+    var KFileName = 'openhub';
+
+    export function getInfoFromOpenHub(aSearchId: string, aCb: (ohlohInfo) => void) {
+
+        request('https://www.openhub.net/p.xml?api_key=' + ohloh_key + '&query=' + aSearchId, (res) => {
+            var allData = '';
+            res.on('data', (data) => {
+                allData += data.toString();
+            });
+            res.on('end', () => {
+                xml2js.parseString(allData, (err, searchResult) => {
+                    fs.writeFileSync(KFileName + '.xml', allData);
+                    if (searchResult && searchResult.response.items_returned[0] != '0') {
+                        fs.writeFileSync(KFileName, JSON.stringify(searchResult, null, 4));
+                        aCb(searchResult);
+                    } else {
+                        fs.writeFileSync(KFileName, "");
+                        aCb(null);
+                    }
                 });
             });
-        } else {
-            var fileContents = fs.readFileSync(aFileName).toString();
-            if (fileContents && fileContents.length) {
-                aCb(JSON.parse(fileContents));
-            } else {
-                aCb(null);
-            }
-        }
+        });
     }
 }
 
