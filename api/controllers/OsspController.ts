@@ -59,8 +59,10 @@ module.exports.importOpenHub = function(req, res) {
 
 		async.series(series, function(err) {
 			if (err) {
+				console.log(err);
 				res.send(err);
 			} else {
+				console.log(resp);
 				res.json(resp);
 			}
 		});

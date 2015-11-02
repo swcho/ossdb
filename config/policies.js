@@ -26,14 +26,16 @@ module.exports.policies = {
      *                                                                          *
      ***************************************************************************/
 
-    '*': 'authenticated',
+    //'*': 'authenticated',
+    '*': true,
 
     UserController: {
-        create: true
+        //create: true
+        '*': true
     },
     AuthController: {
         '*': true,
-        getInfo: ['authenticated']
+        //getInfo: ['authenticated']
     },
     OsspController: {
         '*': true //['authenticated', 'logging']

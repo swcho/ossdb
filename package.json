@@ -29,7 +29,7 @@
     "passport-local": "^1.0.0",
     "rc": "~0.5.0",
     "request": "^2.42.0",
-    "sails": "~0.10.4",
+    "sails": "^0.10.5",
     "sails-disk": "~0.10.0",
     "sails-migrations": "^0.1.0",
     "sails-postgresql": "^0.10.8",
