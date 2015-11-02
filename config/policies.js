@@ -36,13 +36,16 @@ module.exports.policies = {
         getInfo: ['authenticated']
     },
     OsspController: {
-        '*': ['authenticated', 'logging']
+        '*': true //['authenticated', 'logging']
     },
     ProjectController: {
-        '*': ['authenticated', 'logging']
+        '*': true //['authenticated', 'logging']
     },
     LicenseController: {
-        '*': ['authenticated', 'logging']
+        '*': true //['authenticated', 'logging']
+    },
+    PackageController: {
+        '*': true //['authenticated', 'logging']
     }
 
     /***************************************************************************
