@@ -124,6 +124,45 @@ module OpenHub {
             });
         });
     }
+
+    function get_info_from_ohloh(aFileName: string, aSearchId: string, aCb: (ohlohInfo) => void) {
+        var retrieve = true;
+        if (fs.existsSync(aFileName)) {
+            var stat = fs.statSync(aFileName);
+            if (now.getTime() -  stat.mtime.getTime() < time1day) {
+                retrieve = false;
+            }
+        }
+
+        if (retrieve) {
+            https.get('https://www.ohloh.net/p.xml?api_key=' + ohloh_key + '&query=' + aSearchId, (res) => {
+                var allData = '';
+                res.on('data', (data) => {
+                    allData += data.toString();
+                });
+                res.on('end', () => {
+//                    common.debug(allData);
+                    xml2js.parseString(allData, (err, searchResult) => {
+                        fs.writeFileSync(aFileName + '.xml', allData);
+                        if (searchResult && searchResult.response.items_returned[0] != '0') {
+                            fs.writeFileSync(aFileName, JSON.stringify(searchResult, null, 4));
+                            aCb(searchResult);
+                        } else {
+                            fs.writeFileSync(aFileName, "");
+                            aCb(null);
+                        }
+                    });
+                });
+            });
+        } else {
+            var fileContents = fs.readFileSync(aFileName).toString();
+            if (fileContents && fileContents.length) {
+                aCb(JSON.parse(fileContents));
+            } else {
+                aCb(null);
+            }
+        }
+    }
 }
 
 export = OpenHub;

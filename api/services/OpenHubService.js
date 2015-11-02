@@ -104,6 +104,46 @@ var OpenHub;
         });
     }
     OpenHub.getLicenseInfo = getLicenseInfo;
+    function get_info_from_ohloh(aFileName, aSearchId, aCb) {
+        var retrieve = true;
+        if (fs.existsSync(aFileName)) {
+            var stat = fs.statSync(aFileName);
+            if (now.getTime() - stat.mtime.getTime() < time1day) {
+                retrieve = false;
+            }
+        }
+        if (retrieve) {
+            https.get('https://www.ohloh.net/p.xml?api_key=' + ohloh_key + '&query=' + aSearchId, function (res) {
+                var allData = '';
+                res.on('data', function (data) {
+                    allData += data.toString();
+                });
+                res.on('end', function () {
+                    //                    common.debug(allData);
+                    xml2js.parseString(allData, function (err, searchResult) {
+                        fs.writeFileSync(aFileName + '.xml', allData);
+                        if (searchResult && searchResult.response.items_returned[0] != '0') {
+                            fs.writeFileSync(aFileName, JSON.stringify(searchResult, null, 4));
+                            aCb(searchResult);
+                        }
+                        else {
+                            fs.writeFileSync(aFileName, "");
+                            aCb(null);
+                        }
+                    });
+                });
+            });
+        }
+        else {
+            var fileContents = fs.readFileSync(aFileName).toString();
+            if (fileContents && fileContents.length) {
+                aCb(JSON.parse(fileContents));
+            }
+            else {
+                aCb(null);
+            }
+        }
+    }
 })(OpenHub || (OpenHub = {}));
 module.exports = OpenHub;
 //# sourceMappingURL=OpenHubService.js.map
