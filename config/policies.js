@@ -32,7 +32,8 @@ module.exports.policies = {
         create: true
     },
     AuthController: {
-        '*': true
+        '*': true,
+        getInfo: ['authenticated']
     },
     OsspController: {
         '*': ['authenticated', 'logging']

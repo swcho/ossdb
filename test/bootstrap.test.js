@@ -3,9 +3,9 @@ var Sails = require('sails');
 var gSails;
 before(function (done) {
     Sails.lift({
-        log: {
-            level: 'error'
-        },
+        //log: {
+        //    level: 'error'
+        //},
         environment: 'test'
     }, function (err, sails) {
         if (err) {

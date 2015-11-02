@@ -7,20 +7,20 @@ import supertest = require('supertest');
 
 describe('Import', function() {
 
-    var ossdb = supertest('http://localhost:1337');
+    var ossdb = supertest.agent('http://localhost:1337');
     var osspId;
     var licenseId;
 
-    it('create user', function(done) {
-        ossdb.get('/user/create').query({
-            name: 'Test',
-            email: 'test@test.com',
-            password: 'password'
-        }).end(function(err, res) {
-            done();
-        });
-    });
-
+    //it('create user', function(done) {
+    //    ossdb.get('/user/create').query({
+    //        name: 'Test',
+    //        email: 'test@test.com',
+    //        password: 'password'
+    //    }).end(function(err, res) {
+    //        done();
+    //    });
+    //});
+    //
     it('login as admin', function(done) {
         ossdb.post('/auth/login').send({
             email: 'test@test.com',
@@ -30,11 +30,11 @@ describe('Import', function() {
         });
     });
 
-    it('get login info', function(done) {
-        ossdb.get('/auth/getInfo').end(function(err, res) {
-            done();
-        });
-    });
+    //it('get login info', function(done) {
+    //    ossdb.get('/auth/getInfo').end(function(err, res) {
+    //        done();
+    //    });
+    //});
 
     it('import project', function(done) {
         ossdb.get('/license/importOpenHub')

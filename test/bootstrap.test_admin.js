@@ -5,21 +5,13 @@ var supertest = require('supertest');
 var gSails;
 before(function (done) {
     Sails.lift({
-        log: {
-            level: 'error'
-        },
         environment: 'test'
     }, function (err, sails) {
         if (err) {
             return done(err);
         }
-        //        barrels.populate(function(err) {
-        //            done(err, sails);
-        //        });
-        //
-        //        fixtures = barrels.objects
         gSails = sails;
-        var ossdb = supertest('http://localhost:1337');
+        var ossdb = supertest.agent('http://localhost:1337');
         async.series([
             function (done) {
                 ossdb.get('/user/create').query({
