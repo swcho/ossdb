@@ -26,11 +26,16 @@ module.exports = function () {
             console.log([no, limit, sort].join(', '));
             var Model = actionUtil.parseModel(req);
             var criteria = actionUtil.parseCriteria(req);
+
             var q = Model.find();
             if (populateList && populateList.forEach) {
                 populateList.forEach(function(key) {
                     q.populate(key);
                 });
+            }
+            var populate = req.param('populate');
+            if (populate) {
+                q.populate(populate);
             }
             q.skip((no - 1) * limit).limit(limit).sort(sort).exec(function findCB(err, found) {
 

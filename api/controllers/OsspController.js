@@ -6,6 +6,11 @@
 var OpenHubService = require('../services/OpenHubService');
 var async = require('async');
 module.exports = require("../services/PaginationController")();
+module.exports.getAll = function (req, res) {
+    Ossp.find({}).exec(function (err, items) {
+        res.send(items);
+    });
+};
 module.exports.importOpenHub = function (req, res) {
     var url = req.param('url');
     var resp = {
