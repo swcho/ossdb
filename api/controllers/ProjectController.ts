@@ -32,6 +32,7 @@ module.exports.detail = function (req, res) {
     var project;
     var series = [];
     var packagesToGetLicense = [];
+    var packagesToGetOssp = [];
     series.push(function(cb) {
         Project.findOne({
             id: id
@@ -41,11 +42,30 @@ module.exports.detail = function (req, res) {
                 project.packages.forEach(function (pkg) {
                     if (pkg.license) {
                         packagesToGetLicense.push(pkg);
+                    } else if (pkg.ossp) {
+                        packagesToGetOssp.push(pkg);
                     }
                 });
             }
             cb(err);
         })
+    });
+
+    series.push(function(cb) {
+        var s = [];
+        packagesToGetOssp.forEach(function(pkg) {
+            s.push(function(done) {
+                Ossp.findOne({
+                    id: pkg.ossp
+                }).populate('licenses').exec(function(err, ossp) {
+                    pkg.license = ossp.licenses[0];
+                    console.log(pkg);
+                    console.log(ossp);
+                    done();
+                });
+            });
+        });
+        async.series(s, cb);
     });
 
     series.push(function(cb) {

@@ -10,6 +10,18 @@ export var attributes = {
         type: 'string',
         unique: true
     },
+    tm: {
+        type: 'string'
+    },
+    pm: {
+        type: 'string'
+    },
+    pdm_url: {
+        type: 'string'
+    },
+    family: {
+        type: 'string'
+    },
     packages: {
         collection: 'Package',
         via: 'projects'
