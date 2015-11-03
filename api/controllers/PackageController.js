@@ -28,4 +28,14 @@ module.exports.searchInfo = function (req, res) {
         });
     });
 };
+module.exports.search = function (req, res) {
+    var name = req.param('name');
+    Package.find({
+        name: {
+            contains: name
+        }
+    }).sort('name').exec(function (err, resp) {
+        res.json(resp);
+    });
+};
 //# sourceMappingURL=PackageController.js.map
