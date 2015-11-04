@@ -18,6 +18,9 @@ module.exports = {
         license: {
             model: 'license'
         },
+        file: {
+            type: 'string'
+        },
         projects: {
             collection: 'project',
             via: 'packages',
