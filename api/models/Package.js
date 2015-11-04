@@ -21,6 +21,9 @@ module.exports = {
         file: {
             type: 'string'
         },
+        md5: {
+            type: 'string'
+        },
         projects: {
             collection: 'project',
             via: 'packages',
